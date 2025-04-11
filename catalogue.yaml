@@ -48,3 +48,11 @@
     - name: Installing mondodb shell 
       ansible.builtin.command: dnf install -y mongodb-mongosh
 
+    - name: get the products count
+      ansible.builtin.command: mongosh --host mongodb.devopsprocloud.in --quiet --eval 'db =db.getSiblingDB("catalogue");db.products.count()'
+      register: output 
+
+    - name: Print the output 
+      ansible.builtin.debug:
+        msg: "Output is {{output}}"
+
