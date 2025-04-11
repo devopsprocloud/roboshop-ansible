@@ -32,7 +32,8 @@
 
     - name: Installing dependencies
       ansible.builtin.command: npm install 
-      chdir: /app
+      args:
+        chdir: /app
 
     - name: Copying the catalogue.service
       ansible.builtin.copy:
@@ -47,4 +48,3 @@
     - name: Installing mondodb shell 
       ansible.builtin.command: dnf install -y mongodb-mongosh
 
-    
