@@ -18,3 +18,14 @@
       ansible.builtin.file:
         path: /app 
         state: directory
+
+    - name: Downoloading the catalogue.zip 
+      ansible.builtin.get_url:
+        url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+        dest: /tmp 
+
+    - name: unzipping catalogue.zip 
+      ansible.builtin.unarchive:
+        src: /tmp/catalogue.zip 
+        remote_src: yes 
+        dest: /app 
