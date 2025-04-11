@@ -58,6 +58,6 @@
 
     - name: Loading catalogue data into Mongodb 
       ansible.builtin.shell: mongosh --host mongodb.devopsprocloud.in </app/schema/catalogue.js
-      #when: output.stdout == 0
+      when: output.stdout == 0
 
 
