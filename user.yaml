@@ -1,0 +1,53 @@
+- name: user
+  hosts: user 
+  become: yes 
+  tasks:
+    - name: Disabling the Current NodeJS and enabling NodeJS:20
+      ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:20 -y
+
+    - name: Installing NodeJS:20
+      ansible.builtin.package:
+        name: nodejs 
+        state: present 
+
+    - name: creating roboshop user
+      ansible.builtin.user:
+        name: roboshop 
+
+    - name: creating /app directory 
+      ansible.builtin.file:
+        path: /app 
+        state: directory
+
+    - name: Downoloading the user.zip 
+      ansible.builtin.get_url:
+        url: https://roboshop-builds.s3.amazonaws.com/user.zip
+        dest: /tmp 
+
+    - name: unzipping user.zip 
+      ansible.builtin.unarchive:
+        src: /tmp/user.zip 
+        remote_src: yes 
+        dest: /app 
+
+    - name: Installing dependencies
+      ansible.builtin.command: npm install 
+      args:
+        chdir: /app
+
+    - name: Copying the user.service
+      ansible.builtin.copy:
+        src: user.service
+        dest: /etc/systemd/system/user.service
+
+    - name: Daemon reload 
+      ansible.builtin.systemd_service:
+        daemon_reload: true 
+
+    - name: Copying MongoDB repo
+      ansible.builtin.copy:
+        src: mongo.repo
+        dest: /etc/yum.repos.d/mongo.repo
+    
+    - name: Installing mondodb shell 
+      ansible.builtin.command: dnf install -y mongodb-mongosh
