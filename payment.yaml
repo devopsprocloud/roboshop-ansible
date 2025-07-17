@@ -10,7 +10,7 @@
         - python3.11 
         - gcc 
         - python-devel 
-        
+
     - name: Creating roboshop user 
       ansible.builtin.user:
         name: roboshop 
@@ -27,7 +27,7 @@
 
     - name: Downoloading the payment.zip 
       ansible.builtin.get_url:
-        url: https://roboshop-builds.s3.amazonaws.payment.zip
+        url: https://roboshop-builds.s3.amazonaws/payment.zip
         dest: /tmp 
 
     - name: unzipping payment.zip 
