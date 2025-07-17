@@ -62,8 +62,8 @@
     
     - name: Loading catalogue data into Mongodb 
       ansible.builtin.shell: mongosh --host MONGODB-SERVER-IPADDRESS </app/schema/user.js
-      #when: output.stdout == "0"
-      when: output.stdout != "0"
+      when: output.stdout == "0"
+      # when: output.stdout != "0"
 
     - name: Enable and Starting user
       ansible.builtin.service:
