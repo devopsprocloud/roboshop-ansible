@@ -52,6 +52,15 @@
     - name: Installing mondodb shell 
       ansible.builtin.command: dnf install -y mongodb-mongosh
     
-    # - name: get the products count
-    #   ansible.builtin.command:  mongosh --host mongodb.devopsprocloud.in --quiet --eval 'db =db.getSiblingDB("users");db.users.count()'
-    #   register: output 
+    - name: get the products count
+      ansible.builtin.command:  mongosh --host mongodb.devopsprocloud.in --quiet --eval 'db =db.getSiblingDB("users");db.users.estimatedDocumentCount()'
+      register: output 
+
+    - name: Print the output 
+      ansible.builtin.debug:
+        msg: "Output is {{output}}"
+    
+    # - name: Loading catalogue data into Mongodb 
+    #   ansible.builtin.shell: mongosh --host MONGODB-SERVER-IPADDRESS </app/schema/user.js
+    #   #when: output.stdout == "0"
+    #   when: output.stdout != "0"
