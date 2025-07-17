@@ -72,3 +72,9 @@
     - name: Loading Master data 
       ansible.builtin.shell: mysql -h mysql.devopsprocloud.in -uroot -p{{mysql_password}} < /app/db/master-data.sql
       when: cities_schema.stdout == "0"
+
+    - name: Enabling and Starting Shipping 
+      ansible.builtin.service:
+        name: shipping 
+        enabled: yes 
+        state: started 
