@@ -21,7 +21,7 @@
 
     - name: Downoloading the catalogue.zip 
       ansible.builtin.get_url:
-        url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip
+        url: https://roboshop-builds.s3.amazonaws.com/payment.zip
         dest: /tmp 
 
     - name: unzipping catalogue.zip 
