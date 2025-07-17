@@ -57,6 +57,18 @@
       ansible.builtin.command: mysql -h mysql.devopsprocloud.in -uroot -p{{mysql_password}} -sN -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'cities'"
       register: cities_schema 
     
-    - name: Print output 
+    - name: Print Cities Schema output 
       ansible.builtin.debug:
         msg: "Cities Scehma Output is {{cities_schema}}"
+
+    - name: Loading cities data 
+      ansible.builtin.shell: mysql -h mysql.devopsprocloud.in -uroot -p{{mysql_password}} < /app/db/schema.sql
+      when: cities_schema.stdout == "0"
+
+    - name: Loading App user data 
+      ansible.builtin.shell: mysql -h mysql.devopsprocloud.in -uroot -p{{mysql_password}} < /app/db/app-user.sql
+      when: cities_schema.stdout == "0"
+
+    - name: Loading Master data 
+      ansible.builtin.shell: mysql -h mysql.devopsprocloud.in -uroot -p{{mysql_password}} < /app/db/master-data.sql
+      when: cities_schema.stdout == "0"
