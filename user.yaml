@@ -10,11 +10,11 @@
         name: nodejs 
         state: present 
 
-    - name: creating roboshop user
+    - name: Creating roboshop user
       ansible.builtin.user:
         name: roboshop 
 
-    - name: creating /app directory 
+    - name: Creating /app directory 
       ansible.builtin.file:
         path: /app 
         state: directory
@@ -24,7 +24,7 @@
         url: https://roboshop-builds.s3.amazonaws.com/user.zip
         dest: /tmp 
 
-    - name: unzipping user.zip 
+    - name: Unzipping user.zip 
       ansible.builtin.unarchive:
         src: /tmp/user.zip 
         remote_src: yes 
@@ -51,3 +51,7 @@
     
     - name: Installing mondodb shell 
       ansible.builtin.command: dnf install -y mongodb-mongosh
+    
+    - name: get the products count
+      ansible.builtin.command:  mongosh --host mongodb.devopsprocloud.in --quiet --eval 'db =db.getSiblingDB("users");db.users.count()'
+      register: output 
