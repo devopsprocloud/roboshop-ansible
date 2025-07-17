@@ -62,8 +62,8 @@
     
     - name: Loading user data into Mongodb 
       ansible.builtin.shell: mongosh --host mongodb.devopsprocloud.in </app/schema/user.js
-      # when: output.stdout == "0" 
-      when: output.stdout != "0"
+      when: output.stdout == "0" 
+      # when: output.stdout != "0"
 
     - name: Enable and Starting user
       ansible.builtin.service:
